@@ -1,3 +1,5 @@
 dist
 node_modules
 package-lock.json
+# file di verifica di Google Search Console: va servito byte per byte
+public/google*.html

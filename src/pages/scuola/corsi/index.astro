@@ -125,7 +125,7 @@ const instrumentData = Object.fromEntries(
 				suono: soundMapSettore[settore.id] ?? soundMap[corso.slug] ?? null,
 				scheda: [
 					{ voce: 'Insegnante', valore: corso.insegnante, vuoto: daConfermare(corso.insegnante) },
-					{ voce: 'Orari', valore: corso.orari, vuoto: daConfermare(corso.orari) },
+					{ voce: 'Giorni', valore: corso.giorni, vuoto: daConfermare(corso.giorni) },
 					{
 						voce: 'Quota',
 						valore: quotaSintetica(corso),

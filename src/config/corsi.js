@@ -234,23 +234,43 @@ const LISTINO_BANDA = { 30: 440, 45: 520, 60: 640 };
 const LISTINO_ALTRI = { 30: 520, 45: 600, 60: 720 };
 
 export const datiOrganizzativi = {
-	propedeutico: { insegnante: 'Gianfranco Scalvini', eta: 'Dai 7 anni' },
-	pianoforte: { insegnante: 'Gabriele Moraschi' },
+	propedeutico: {
+		insegnante: 'Gianfranco Scalvini',
+		giorni: 'Mercoledì e venerdì',
+		eta: 'Dai 7 anni',
+	},
+	// Corvaglia segue i clarinetti e tutti i sassofoni
+	clarinetto: { insegnante: 'Luigi Corvaglia', giorni: 'Venerdì' },
+	'clarinetto-basso': { insegnante: 'Luigi Corvaglia', giorni: 'Venerdì' },
+	// "sax alto" del prospetto: in italiano è il sassofono contralto
+	'sax-contralto': { insegnante: 'Luigi Corvaglia', giorni: 'Venerdì' },
+	'sax-tenore': { insegnante: 'Luigi Corvaglia', giorni: 'Venerdì' },
+	'sax-baritono': { insegnante: 'Luigi Corvaglia', giorni: 'Venerdì' },
+	// Pezzotti segue flauto e ottavino
+	flauto: { insegnante: 'Daniela Pezzotti', giorni: 'Giovedì' },
+	ottavino: { insegnante: 'Daniela Pezzotti', giorni: 'Giovedì' },
+	corno: { insegnante: 'Silvia Festa', giorni: 'Venerdì' },
+	tromba: { insegnante: 'Antony Surace', giorni: 'Giovedì' },
+	// Mambretti segue tutti i corsi di percussioni, batteria compresa
+	percussioni: {
+		insegnante: 'Federico Mambretti',
+		giorni: 'Giovedì e venerdì',
+	},
+	batteria: { insegnante: 'Federico Mambretti', giorni: 'Giovedì e venerdì' },
+	'laboratorio-percussioni': {
+		insegnante: 'Federico Mambretti',
+		giorni: 'Giovedì e venerdì',
+	},
+	'musica-insieme': { insegnante: 'Federico Mambretti', giorni: 'Giovedì' },
+	pianoforte: { insegnante: 'Gabriele Moraschi', giorni: 'Giovedì' },
 	// Belleri segue tutti i corsi di chitarra e basso
-	'chitarra-classica': { insegnante: 'Michele Belleri' },
-	'chitarra-elettrica': { insegnante: 'Michele Belleri' },
-	'basso-elettrico': { insegnante: 'Michele Belleri' },
-	tromba: { insegnante: 'Antony Surace' },
+	'chitarra-classica': { insegnante: 'Michele Belleri', giorni: 'Mercoledì' },
+	'chitarra-elettrica': { insegnante: 'Michele Belleri', giorni: 'Mercoledì' },
+	'basso-elettrico': { insegnante: 'Michele Belleri', giorni: 'Mercoledì' },
+	'canto-moderno': { insegnante: 'Stefania Bonometti', giorni: 'Martedì' },
 	// Il perfezionamento non ha un docente fisso: lo segue chi insegna lo
 	// strumento dell'allievo. Non è un segnaposto, è la risposta.
 	perfezionamento: { insegnante: 'L’insegnante del tuo strumento' },
-	clarinetto: { insegnante: 'Luigi Corvaglia' },
-	// "sax alto" del prospetto: in italiano è il sassofono contralto
-	'sax-contralto': { insegnante: 'Luigi Corvaglia' },
-	percussioni: { insegnante: 'Federico Mambretti' },
-	batteria: { insegnante: 'Federico Mambretti' },
-	'laboratorio-percussioni': { insegnante: 'Federico Mambretti' },
-	'musica-insieme': { insegnante: 'Federico Mambretti' },
 };
 
 /** Età minima per i corsi di strumento e canto, dal regolamento. */
@@ -287,7 +307,7 @@ export const PERIODO_PREZZO = 'al mese';
 
 const campiDefault = {
 	insegnante: DA_CONFERMARE,
-	orari: DA_CONFERMARE,
+	giorni: DA_CONFERMARE,
 	eta: DA_CONFERMARE,
 };
 
