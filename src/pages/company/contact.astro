@@ -10,24 +10,28 @@ const telefono = '+39 371 771 1684';
 
 const seo = {
 	title: 'Contatti | Corpo Bandistico di Castelcovati',
-	description: 'Scrivici per informazioni su concerti, servizi, scuola di musica o per proporci una collaborazione.',
+	description:
+		'Scrivici per informazioni su concerti, servizi, scuola di musica o per proporci una collaborazione.',
 };
 ---
 
-<Layout seo={seo}>
+<Layout {seo}>
 	<Container>
 		<section class="contact-hero__section">
 			<div class="contact-hero__text-section">
 				<h1>Contattaci</h1>
 				<p>
-				    Compila il seguente form.</br>
-					Saremo felici di rispondere a qualsiasi dubbio tu possa incontrare.</br></br>
-					Ti forniremo tutte le informazioni di cui necessiti.</br></br>
+					Compila il seguente form.<br />
+					Saremo felici di rispondere a qualsiasi dubbio tu possa incontrare.<br
+					/><br />
+					Ti forniremo tutte le informazioni di cui necessiti.<br /><br />
 					In alternativa puoi sempre contattarci ai seguenti recapiti:
 				</p>
 				<ul class="contact-hero__recapiti">
 					<li>
-						<a href={`tel:${telefono.replace(/\s/g, '')}`} class="tabular">{telefono}</a>
+						<a href={`tel:${telefono.replace(/\s/g, '')}`} class="tabular"
+							>{telefono}</a
+						>
 					</li>
 					<li>
 						<a href={`mailto:${settings.email}`}>{settings.email}</a>

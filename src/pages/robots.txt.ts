@@ -18,13 +18,13 @@ export const GET: APIRoute = ({ site }) => {
 				'Allow: /',
 				'',
 				site ? `Sitemap: ${new URL('sitemap-index.xml', site).href}` : '',
-			]
+		  ]
 		: [
 				'# Indicizzazione disattivata: sito in fase di lavorazione.',
 				'# Si attiva impostando SITE_INDEXABLE=true fra le variabili di build.',
 				'User-agent: *',
 				'Disallow: /',
-			];
+		  ];
 
 	return new Response(corpo.filter(Boolean).join('\n') + '\n', {
 		headers: { 'Content-Type': 'text/plain; charset=utf-8' },

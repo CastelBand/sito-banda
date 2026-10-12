@@ -263,7 +263,6 @@ const QUOTE_COLLETTIVE = {
 	'laboratorio-percussioni': 200,
 };
 
-
 export const DURATE = [
 	{ minuti: 30, etichetta: '30 minuti' },
 	{ minuti: 45, etichetta: '45 minuti' },
@@ -294,7 +293,8 @@ const campiDefault = {
 
 /** Listino che spetta a un corso in base alla famiglia. */
 const listinoDi = famiglia => {
-	if (['legni', 'ottoni', 'percussioni'].includes(famiglia)) return LISTINO_BANDA;
+	if (['legni', 'ottoni', 'percussioni'].includes(famiglia))
+		return LISTINO_BANDA;
 	if (famiglia === 'altri') return LISTINO_ALTRI;
 	return null; // i collettivi hanno una quota unica, non una scala
 };
@@ -306,9 +306,21 @@ const listinoDi = famiglia => {
   inesistenti per i corsi senza foto. Aggiungi qui lo slug quando arriva l'immagine.
 */
 const SLUG_CON_FOTO = new Set([
-	'clarinetto', 'clarinetto-basso', 'oboe', 'fagotto', 'flauto', 'ottavino',
-	'corno', 'tromba', 'trombone', 'sax-contralto', 'sax-tenore', 'sax-baritono',
-	'percussioni', 'tuba', 'euphonium',
+	'clarinetto',
+	'clarinetto-basso',
+	'oboe',
+	'fagotto',
+	'flauto',
+	'ottavino',
+	'corno',
+	'tromba',
+	'trombone',
+	'sax-contralto',
+	'sax-tenore',
+	'sax-baritono',
+	'percussioni',
+	'tuba',
+	'euphonium',
 ]);
 
 export const corsi = [
@@ -316,7 +328,11 @@ export const corsi = [
 	...definizioniAltri,
 	...definizioniCollettive,
 ].map(corso => {
-	const dati = { ...campiDefault, ...corso, ...(datiOrganizzativi[corso.slug] ?? {}) };
+	const dati = {
+		...campiDefault,
+		...corso,
+		...(datiOrganizzativi[corso.slug] ?? {}),
+	};
 	const listino = dati.prezzi ?? listinoDi(corso.famiglia);
 	// Un listino è valido solo se ha tutte e tre le durate: uno parziale
 	// mostrerebbe un buco proprio nella tabella di confronto.
@@ -329,8 +345,8 @@ export const corsi = [
 		dati.eta !== DA_CONFERMARE
 			? dati.eta
 			: prezziCompleti
-				? ETA_STRUMENTO
-				: DA_CONFERMARE;
+			? ETA_STRUMENTO
+			: DA_CONFERMARE;
 	return {
 		...dati,
 		eta,
@@ -389,11 +405,15 @@ export const formattaPrezzo = valore => {
 
 /** Rata mensile ricavata dalla quota annuale: il prospetto conta 8 mesi. */
 export const alMese = annuale =>
-	typeof annuale === 'number' ? Math.round((annuale / MESI_CORSO) * 100) / 100 : null;
+	typeof annuale === 'number'
+		? Math.round((annuale / MESI_CORSO) * 100) / 100
+		: null;
 
 /** Applica lo sconto banda alla quota annuale, senza mai scendere sotto zero. */
 export const conSconto = annuale =>
-	typeof annuale === 'number' ? Math.max(0, annuale - SCONTO_BANDA_ANNUO) : null;
+	typeof annuale === 'number'
+		? Math.max(0, annuale - SCONTO_BANDA_ANNUO)
+		: null;
 
 /** Righe pronte per la tabella della scala prezzi. */
 export const scalaPrezzi = corso =>

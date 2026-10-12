@@ -20,7 +20,7 @@ export default {
 	pec: 'corpobandistico.castelcovati@pec.it',
 	email: 'corpobandistico.castelcovati@gmail.com',
 	// Attestazione RUNTS richiesta, in attesa di riscontro.
-	runts: 'Attestazione in corso',
+	runts: 'Iscritto dal 21/07/2026',
 	// Striscia sopra l'header, presente su ogni pagina. Metti `annuncio: null`
 	// per toglierla da tutto il sito.
 	annuncio: {

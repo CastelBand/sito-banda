@@ -287,10 +287,10 @@ const seo = {
 		const modale = document.getElementById('scalaModal');
 
 		if (apri && modale) {
-			const box = modale.querySelector('.scala__box');
-			const celle = [...modale.querySelectorAll('[data-base]')];
-			const interruttori = [...modale.querySelectorAll('[data-sconto]')];
-			const stato = modale.querySelector('.scala__stato');
+			const box = modale.querySelector<HTMLElement>('.scala__box');
+			const celle = [...modale.querySelectorAll<HTMLElement>('[data-base]')];
+			const interruttori = [...modale.querySelectorAll<HTMLInputElement>('[data-sconto]')];
+			const stato = modale.querySelector<HTMLElement>('.scala__stato');
 			let ultimoFocus = null;
 
 			// Le riduzioni sono importi fissi sulla quota ANNUALE e si sommano.
@@ -387,7 +387,7 @@ const seo = {
 				}
 				// il focus resta dentro la finestra finché è aperta
 				if (e.key === 'Tab') {
-					const f = [...box.querySelectorAll('button, input')].filter(
+					const f = [...box.querySelectorAll<HTMLButtonElement | HTMLInputElement>('button, input')].filter(
 						el => !el.disabled && el.offsetParent !== null
 					);
 					if (!f.length) return;
@@ -406,7 +406,7 @@ const seo = {
 
 		// Un solo elemento audio per pagina; il pulsante è un vero toggle
 		// (WCAG 1.4.2: l'audio non parte mai da solo e si può sempre fermare).
-		const bottone = document.querySelector('.corso__audio');
+		const bottone = document.querySelector<HTMLElement>('.corso__audio');
 
 		if (bottone) {
 			const audio = new Audio();

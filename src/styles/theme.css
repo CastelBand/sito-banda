@@ -43,7 +43,11 @@
 	--theme-errore: #a8412f;
 	--theme-errore-ink: #8f3527;
 	--theme-errore-fondo: color-mix(in srgb, var(--theme-errore) 8%, transparent);
-	--theme-errore-alone: color-mix(in srgb, var(--theme-errore) 16%, transparent);
+	--theme-errore-alone: color-mix(
+		in srgb,
+		var(--theme-errore) 16%,
+		transparent
+	);
 	--theme-muted: var(--ink-3);
 	--theme-border: color-mix(in srgb, var(--ink) 12%, transparent);
 	--theme-border-strong: color-mix(in srgb, var(--ink) 22%, transparent);

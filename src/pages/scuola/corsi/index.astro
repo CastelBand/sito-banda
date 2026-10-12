@@ -3,6 +3,7 @@ import { Icon } from 'astro-icon/components';
 import Layout from '../../../layouts/Page.astro';
 import { Container, Button } from '@components/odyssey-theme';
 import BandaChart from '../../../components/BandaChart.astro';
+import type { ComponentProps } from 'astro/types';
 import TextAndImageHero from '../../../components/sections/heros/TextAndImageHero.astro';
 import HeroSlider from '../../../components/sections/heros/HeroSlider.astro';
 import {
@@ -37,7 +38,7 @@ const heroImages = [
 ];
 
 // definizione settori (angoli in gradi, 180\u00b0 = lato sinistro, 0\u00b0 = lato destro)
-const sections = [
+const sections: ComponentProps<typeof BandaChart>['sections'] = [
 	// ANELLO 1 (interno, vicino al direttore)
 	{ id: 'C1', label: 'Clarinetto', ring: 1, startDeg: 180, endDeg: 265 },
 	{ id: 'OB', label: 'Oboe', ring: 1, startDeg: 265, endDeg: 280 },
@@ -204,7 +205,7 @@ const instrumentData = Object.fromEntries(
 				famiglieStrumenti.map(famiglia => (
 					<div class="organico__famiglia">
 						<h3 class="organico__nome">
-							<Icon name={famiglia.icona} width="20" height="20" aria-hidden="true" />
+							<Icon name={famiglia.icona} width={20} height={20} aria-hidden="true" />
 							<span>{famiglia.etichetta}</span>
 						</h3>
 						<ul class="organico__lista">
@@ -267,7 +268,7 @@ const instrumentData = Object.fromEntries(
 			<div class="cta-section__content">
 				<h2>Prima di iscriverti</h2>
 				<p>
-					Ti invitiamo a <strong>leggere il regolamento</strong>.</br>
+					Ti invitiamo a <strong>leggere il regolamento</strong>.<br />
 					Qui puoi trovare tutte le informazioni generali in merito alla scuola.
 					Trovi anche informazioni riguardanti il prestito degli strumenti, come si paga e le varie regole di frequenza.
 				</p>
@@ -300,14 +301,14 @@ const instrumentData = Object.fromEntries(
 					data-close
 					aria-label="Chiudi"
 				>
-					<Icon name="lucide:x" width="20" height="20" aria-hidden="true" />
+					<Icon name="lucide:x" width={20} height={20} aria-hidden="true" />
 				</button>
 			</div>
 
 			<div class="instrument-modal__media">
 				<img id="instrumentModalImage" class="instrument-modal__image" alt="" hidden />
 				<div id="instrumentModalPlaceholder" class="instrument-modal__placeholder">
-					<Icon name="lucide:music" width="48" height="48" aria-hidden="true" />
+					<Icon name="lucide:music" width={48} height={48} aria-hidden="true" />
 				</div>
 			</div>
 
@@ -315,15 +316,15 @@ const instrumentData = Object.fromEntries(
 				<Icon
 					class="instrument-modal__audio-icona instrument-modal__audio-icona--play"
 					name="lucide:play"
-					width="18"
-					height="18"
+					width={18}
+					height={18}
 					aria-hidden="true"
 				/>
 				<Icon
 					class="instrument-modal__audio-icona instrument-modal__audio-icona--pausa"
 					name="lucide:pause"
-					width="18"
-					height="18"
+					width={18}
+					height={18}
 					aria-hidden="true"
 				/>
 				<span id="instrumentModalAudioLabel">Ascolta</span>
@@ -333,7 +334,7 @@ const instrumentData = Object.fromEntries(
 			<dl id="instrumentModalScheda" class="instrument-modal__scheda"></dl>
 
 			<a id="instrumentModalLink" class="instrument-modal__link" href="#">
-				<Icon name="lucide:book-open" width="18" height="18" aria-hidden="true" />
+				<Icon name="lucide:book-open" width={18} height={18} aria-hidden="true" />
 				<span>Vedi il corso completo</span>
 			</a>
 		</div>

@@ -32,15 +32,15 @@ produces a plain static `dist/` to host anywhere.
 
 Build-time environment variables, all read during `astro build`:
 
-| Variable | Required | Effect |
-| --- | --- | --- |
-| `WINDDOC_TOKEN_APP` | yes | build throws without it |
-| `WINDDOC_TOKEN_KEY` | yes | build throws without it |
-| `SITE_URL` | no | overrides the public domain |
-| `SITE_INDEXABLE` | no | `"true"` allows search engines |
+| Variable            | Required | Effect                         |
+| ------------------- | -------- | ------------------------------ |
+| `WINDDOC_TOKEN_APP` | yes      | build throws without it        |
+| `WINDDOC_TOKEN_KEY` | yes      | build throws without it        |
+| `SITE_URL`          | no       | overrides the public domain    |
+| `SITE_INDEXABLE`    | no       | `"true"` allows search engines |
 
 `site` resolves as `SITE_URL` → `https://$VERCEL_PROJECT_PRODUCTION_URL` →
-`https://example.com`. The *production* domain is used even on preview builds so
+`https://example.com`. The _production_ domain is used even on preview builds so
 previews don't declare themselves canonical. There is no `url` in `settings.js`
 any more — the domain lives in one place.
 
@@ -163,6 +163,7 @@ history and should be rotated in WindDoc.
   (macOS `com.apple.macl`, which `xattr -d` cannot remove from a sandboxed
   process): `hero-event-list.jpeg`, `hero-school-1.jpeg`, `hero-school-2.jpeg`,
   `hero-trasp.jpeg`. Consequences:
+
   - `npm run build` fails: `EPERM ... copyfile ... hero-event-list.jpeg`.
   - **`npm run dev` crashes the whole process** the first time a page requests
     one of them (unhandled ReadStream `error` event) — `/scuola`, `/scuola/corsi`

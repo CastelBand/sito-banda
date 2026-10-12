@@ -47,8 +47,8 @@ const first = quotes && quotes.length > 0 ? quotes[0] : null;
 </style>
 
 <script>
-  const container = document.currentScript?.previousElementSibling?.previousElementSibling
-    || document.querySelector('.rotating-quotes');
+  const container = (document.currentScript?.previousElementSibling?.previousElementSibling
+    || document.querySelector('.rotating-quotes')) as HTMLElement | null;
 
   if (container) {
     const quotes = JSON.parse(container.dataset.quotes || '[]');
