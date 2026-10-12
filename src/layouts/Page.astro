@@ -5,7 +5,11 @@ import type { Props as BaseHeadProps } from '../components/head/BaseHead.astro';
 import Logo from '../components/Logo.astro';
 import AnnouncementBar from '../components/core/AnnouncementBar.astro';
 import settings from '../config/settings';
-import { footerLists, footerSocials } from '../config/footer';
+import {
+	footerLists,
+	footerSocials,
+	footerAffiliazione,
+} from '../config/footer';
 
 export interface Props {
 	seo?: BaseHeadProps;
@@ -39,6 +43,7 @@ const { seo } = Astro.props as Props;
 		color="var(--theme-on-surface-1)"
 		{footerLists}
 		{footerSocials}
+		{footerAffiliazione}
 		copyrightName={settings.name}
 		showPlug={settings.showPlug}
 	>

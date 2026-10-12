@@ -72,3 +72,16 @@ export const footerLists = [
 		],
 	},
 ];
+
+/*
+  Rete associativa a cui aderisce la banda, mostrata nel footer con il logo.
+  Il logo è verde su trasparente: funziona sul fondo chiaro del footer.
+*/
+export const footerAffiliazione = {
+	etichetta: 'Ente associato ANBIMA',
+	url: 'https://www.anbima.it',
+	logo: '/assets/images/anbima.png',
+	alt: 'ANBIMA APS, Rete associativa nazionale',
+	larghezza: 1000,
+	altezza: 300,
+};
