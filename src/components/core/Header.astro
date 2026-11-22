@@ -5,9 +5,14 @@ const { navData, rightMenu } = Astro.props;
 // Indicatore di pagina corrente: senza, l'utente non sa dove si trova.
 const strip = (p) => (p !== '/' && p.endsWith('/') ? p.slice(0, -1) : p);
 const current = strip(Astro.url.pathname);
-const isCurrent = (slug) => {
+// 'page' sulla pagina esatta, 'true' sulle sezioni che la contengono: in
+// /scuola/corsi "I nostri corsi" e' la pagina, "La scuola" la sezione.
+const statoCorrente = (slug) => {
 	const s = strip(slug);
-	return s === '/' ? current === '/' : current === s || current.startsWith(s + '/');
+	if (s === '/') return current === '/' ? 'page' : undefined;
+	if (current === s) return 'page';
+	if (current.startsWith(s + '/')) return 'true';
+	return undefined;
 };
 ---
 
@@ -60,6 +65,43 @@ const isCurrent = (slug) => {
 	};
 	onScroll();
 	window.addEventListener('scroll', onScroll, { passive: true });
+
+	// Sottomenu (desktop): la freccia accanto alla voce lo apre e lo chiude.
+	// Il passaggio del mouse lo apre via CSS; questo serve a tastiera e touch.
+	const gruppi = document.querySelectorAll('.nav-voce--gruppo');
+	const chiudiSottomenu = () => {
+		gruppi.forEach((gruppo) => {
+			gruppo.removeAttribute('data-aperto');
+			gruppo
+				.querySelector('.nav-sub__toggle')
+				?.setAttribute('aria-expanded', 'false');
+		});
+	};
+	gruppi.forEach((gruppo) => {
+		const toggle = gruppo.querySelector('.nav-sub__toggle');
+		toggle?.addEventListener('click', () => {
+			const aperto = toggle.getAttribute('aria-expanded') === 'true';
+			chiudiSottomenu();
+			if (!aperto) {
+				gruppo.setAttribute('data-aperto', '');
+				toggle.setAttribute('aria-expanded', 'true');
+			}
+		});
+		gruppo.addEventListener('focusout', (e) => {
+			if (e.relatedTarget && !gruppo.contains(e.relatedTarget)) chiudiSottomenu();
+		});
+	});
+	document.addEventListener('click', (e) => {
+		if (!e.target.closest('.nav-voce--gruppo')) chiudiSottomenu();
+	});
+	document.addEventListener('keydown', (e) => {
+		if (e.key !== 'Escape') return;
+		const aperto = document.querySelector(
+			'.nav-voce--gruppo[data-aperto] .nav-sub__toggle'
+		);
+		chiudiSottomenu();
+		aperto?.focus();
+	});
 </script>
 
 <header id="odysseyNavHeader" class={rightMenu ? 'header--right' : undefined}>
@@ -89,23 +131,49 @@ const isCurrent = (slug) => {
 				navData && (
 					<nav aria-label="Menu principale">
 						<ul>
-							{navData.map((navItem) => (
-								<li>
-									<a
-										href={navItem.slug}
-										aria-current={isCurrent(navItem.slug) ? 'page' : undefined}
-									>
-										{navItem.icona && (
-											<Icon
-												class="nav-icona"
-												name={navItem.icona}
-												width={22}
-												height={22}
-												aria-hidden="true"
-											/>
+							{navData.map((navItem, i) => (
+								<li class:list={[navItem.figli?.length && 'nav-voce--gruppo']}>
+									<div class="nav-voce">
+										<a href={navItem.slug} aria-current={statoCorrente(navItem.slug)}>
+											{navItem.icona && (
+												<Icon
+													class="nav-icona"
+													name={navItem.icona}
+													width={22}
+													height={22}
+													aria-hidden="true"
+												/>
+											)}
+											<span>{navItem.title}</span>
+										</a>
+										{navItem.figli?.length > 0 && (
+											<button
+												type="button"
+												class="nav-sub__toggle"
+												aria-expanded="false"
+												aria-controls={`navSub${i}`}
+												aria-label={`Altre pagine: ${navItem.title}`}
+											>
+												<Icon
+													name="lucide:chevron-down"
+													width={16}
+													height={16}
+													aria-hidden="true"
+												/>
+											</button>
 										)}
-										<span>{navItem.title}</span>
-									</a>
+									</div>
+									{navItem.figli?.length > 0 && (
+										<ul class="nav-sub" id={`navSub${i}`}>
+											{navItem.figli.map((figlio) => (
+												<li>
+													<a href={figlio.slug} aria-current={statoCorrente(figlio.slug)}>
+														{figlio.title}
+													</a>
+												</li>
+											))}
+										</ul>
+									)}
 								</li>
 							))}
 						</ul>
@@ -240,12 +308,99 @@ const isCurrent = (slug) => {
 		transform-origin: left;
 		transition: transform 320ms var(--ease-out);
 	}
-	nav ul li a[aria-current='page'] {
+	/* [aria-current] e non ='page': anche la sezione ("La scuola" mentre si
+	   guarda un corso) resta segnata */
+	nav ul li a[aria-current] {
 		opacity: 1;
 		font-weight: 600;
 	}
-	nav ul li a[aria-current='page']::after {
+	nav ul li a[aria-current]::after {
 		transform: scaleX(1);
+	}
+
+	/* ---- Sottomenu ---- */
+	.nav-voce {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3xs);
+	}
+	.nav-voce--gruppo {
+		position: relative;
+	}
+	.nav-sub__toggle {
+		display: flex;
+		padding: 0.25rem;
+		border: none;
+		border-radius: var(--radius-xs);
+		background: transparent;
+		color: inherit;
+		opacity: 0.68;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+		transition: opacity var(--theme-transition);
+	}
+	.nav-sub__toggle:hover,
+	.nav-sub__toggle[aria-expanded='true'] {
+		opacity: 1;
+	}
+	.nav-sub__toggle :global(svg) {
+		transition: transform 200ms var(--ease-out);
+	}
+	.nav-sub__toggle[aria-expanded='true'] :global(svg) {
+		transform: rotate(180deg);
+	}
+	nav ul.nav-sub {
+		display: none;
+		position: absolute;
+		top: 100%;
+		left: calc(-1 * var(--space-xs));
+		z-index: var(--z-raised);
+		flex-direction: column;
+		gap: 0;
+		min-width: 12rem;
+		margin-top: var(--space-2xs);
+		padding: var(--space-3xs);
+		background-color: var(--theme-bg);
+		border: 1px solid var(--theme-border);
+		border-radius: var(--radius-md);
+		box-shadow: var(--theme-elevation-2);
+	}
+	/* ponte invisibile sopra la tendina: il mouse attraversa lo spazio fra
+	   voce e tendina senza che questa si chiuda */
+	nav ul.nav-sub::before {
+		content: '';
+		position: absolute;
+		inset: calc(-1 * var(--space-2xs)) 0 auto;
+		height: var(--space-2xs);
+	}
+	.nav-voce--gruppo[data-aperto] ul.nav-sub {
+		display: flex;
+	}
+	@media (hover: hover) and (min-width: 961px) {
+		.nav-voce--gruppo:hover ul.nav-sub {
+			display: flex;
+		}
+	}
+	nav ul.nav-sub li a {
+		padding: var(--space-2xs) var(--space-xs);
+		border-radius: var(--radius-sm);
+		white-space: nowrap;
+		opacity: 0.8;
+		transition: opacity var(--theme-transition),
+			background-color var(--theme-transition);
+	}
+	nav ul.nav-sub li a:hover {
+		opacity: 1;
+		background-color: var(--theme-surface-1);
+	}
+	/* nella tendina il filetto in ottone non serve: basta il grassetto */
+	nav ul.nav-sub li a::after {
+		display: none;
+	}
+	nav ul.nav-sub li a[aria-current] {
+		opacity: 1;
+		font-weight: 600;
+		color: var(--theme-primary);
 	}
 
 	/*
@@ -311,13 +466,36 @@ const isCurrent = (slug) => {
 			flex: none;
 			color: var(--theme-accent);
 		}
+		header[mobile-menu-open] .nav-voce > a {
+			flex: 1;
+		}
+		/* Nel menu del telefono il sottomenu e' sempre aperto, rientrato
+		   sotto la voce madre e allineato al suo testo (oltre l'icona). */
+		.nav-sub__toggle {
+			display: none;
+		}
+		header[mobile-menu-open] nav ul.nav-sub {
+			display: flex;
+			position: static;
+			gap: 0;
+			min-width: 0;
+			margin: var(--space-2xs) 0 0;
+			padding: 0 0 0 calc(22px + var(--space-sm));
+			background: none;
+			border: none;
+			box-shadow: none;
+		}
+		header[mobile-menu-open] nav ul.nav-sub li a {
+			padding: var(--space-3xs) 0;
+			font-family: var(--theme-font-family-sans);
+			font-size: var(--font-size-base);
+			font-weight: 500;
+		}
+		header[mobile-menu-open] nav ul.nav-sub li a:hover {
+			background: none;
+		}
 	}
 
-	/*
-	  Telefono in verticale: hamburger, logo e "Area soci" a misura piena non
-	  stanno in 390-440px (iPhone 12-16), e il pulsante copriva "APS" e usciva
-	  dal bordo. Si stringono pulsante e margini, non il nome della banda.
-	*/
 	/* Telefono in orizzontale: poca altezza, voci piu' compatte */
 	@media (max-width: 960px) and (max-height: 500px) {
 		header[mobile-menu-open] nav ul {
@@ -328,6 +506,11 @@ const isCurrent = (slug) => {
 		}
 	}
 
+	/*
+	  Telefono in verticale: hamburger, logo e "Area soci" a misura piena non
+	  stanno in 390-440px (iPhone 12-16), e il pulsante copriva "APS" e usciva
+	  dal bordo. Si stringono pulsante e margini, non il nome della banda.
+	*/
 	@media (max-width: 600px) {
 		header {
 			padding-inline: var(--space-sm);

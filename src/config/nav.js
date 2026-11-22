@@ -21,6 +21,14 @@ export const nav = [
 		title: 'La scuola',
 		slug: '/scuola',
 		icona: 'lucide:graduation-cap',
+		// Sottomenu: sul desktop si apre al passaggio del mouse o con la
+		// freccia accanto alla voce, nel menu del telefono e' sempre visibile.
+		figli: [
+			{
+				title: 'I nostri corsi',
+				slug: '/scuola/corsi',
+			},
+		],
 	},
 	{
 		title: 'Contatti',
