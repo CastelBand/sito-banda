@@ -43,6 +43,12 @@ const isCurrent = (slug) => {
 			bodyElement.style.position = 'fixed';
 			bodyElement.style.top = `-${scrollPosition}px`;
 			bodyElement.style.width = '100%';
+			// L'overlay parte da sotto la barra, che con la striscia degli
+			// annunci in cima alla pagina non sta a top: 0.
+			navHeader.style.setProperty(
+				'--menu-top',
+				`${Math.max(0, navHeader.getBoundingClientRect().bottom)}px`
+			);
 		}
 
 		navHeader.toggleAttribute('mobile-menu-open');
@@ -208,6 +214,8 @@ const isCurrent = (slug) => {
 		position: relative;
 		display: block;
 		padding: 0.35rem 0;
+		/* "Chi siamo" e "La scuola" non devono andare a capo nella barra */
+		white-space: nowrap;
 		text-decoration: none;
 		color: inherit;
 		font-size: var(--font-size-sm);
@@ -240,10 +248,24 @@ const isCurrent = (slug) => {
 		transform: scaleX(1);
 	}
 
-	@media (max-width: 600px) {
+	/*
+	  Menu a tutto schermo fino a 960px, non 600: logo, cinque voci e "Area
+	  soci" in fila chiedono circa 900px, quindi un iPhone in orizzontale
+	  (844-932px) mandava le voci su due righe.
+	*/
+	@media (max-width: 960px) {
+		header.header--right {
+			gap: var(--space-xs);
+		}
 		#menuButton {
 			display: block;
 			z-index: var(--z-sticky);
+		}
+		/* Con il menu chiuso la nav e' fuori dalla griglia: senza questo il
+		   pulsante finiva nella colonna centrale invece che a destra. */
+		.header-action-item__container {
+			grid-column: 3;
+			justify-self: end;
 		}
 		.header-nav__container {
 			width: 100%;
@@ -252,10 +274,19 @@ const isCurrent = (slug) => {
 			display: none;
 			flex-direction: column;
 			align-items: center;
-			justify-content: center;
 			position: fixed;
 			inset: 0;
 			z-index: calc(var(--z-sticky) - 1);
+			/* in orizzontale le voci possono non stare in altezza: scorrono
+			   sotto la barra invece di finirci dietro */
+			padding: var(--menu-top, var(--navbar-height)) 0 var(--space-md);
+			overflow-y: auto;
+			overscroll-behavior: contain;
+		}
+		/* margin auto e non justify-content: center, che quando le voci non
+		   stanno taglia la prima sotto la barra e la rende irraggiungibile */
+		.header-nav__container nav {
+			margin-block: auto;
 		}
 		header[mobile-menu-open] .header-nav__container {
 			display: flex;
@@ -279,6 +310,46 @@ const isCurrent = (slug) => {
 			display: block;
 			flex: none;
 			color: var(--theme-accent);
+		}
+	}
+
+	/*
+	  Telefono in verticale: hamburger, logo e "Area soci" a misura piena non
+	  stanno in 390-440px (iPhone 12-16), e il pulsante copriva "APS" e usciva
+	  dal bordo. Si stringono pulsante e margini, non il nome della banda.
+	*/
+	/* Telefono in orizzontale: poca altezza, voci piu' compatte */
+	@media (max-width: 960px) and (max-height: 500px) {
+		header[mobile-menu-open] nav ul {
+			gap: var(--space-2xs);
+		}
+		header[mobile-menu-open] nav ul li a {
+			font-size: var(--font-size-md);
+		}
+	}
+
+	@media (max-width: 600px) {
+		header {
+			padding-inline: var(--space-sm);
+		}
+		#menuButton {
+			margin-right: var(--space-3xs);
+		}
+		.header-action-item__container :global(a) {
+			padding: 0.5rem 0.8rem;
+			white-space: nowrap;
+		}
+	}
+	/* iPhone SE di prima generazione (320px) */
+	@media (max-width: 350px) {
+		header.header--right {
+			gap: var(--space-2xs);
+		}
+		#menuButton {
+			margin-right: 0;
+		}
+		.header-action-item__container :global(a) {
+			padding: 0.45rem 0.6rem;
 		}
 	}
 
