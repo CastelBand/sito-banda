@@ -14,7 +14,7 @@ const {
   images = [
     {
       src: '/assets/images/home/classic-hero.jpg',
-      alt: 'Astro Odyssey',
+      alt: '',
     },
   ],
   interval = 10000,
@@ -30,7 +30,7 @@ const {
     <picture class={`hero-slide ${index === 0 ? 'is-active' : ''}`}>
       <img
         src={image.src}
-        alt={image.alt ?? 'Hero image'}
+        alt={image.alt ?? ''}
         loading={index === 0 ? 'eager' : 'lazy'}
         decoding="async"
       />

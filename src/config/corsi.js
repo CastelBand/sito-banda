@@ -92,7 +92,7 @@ const definizioniStrumento = [
 		nome: 'Sax tenore',
 		famiglia: 'legni',
 		descrizione:
-			'Piu’ grave del contralto, ha un suono corposo che si presta sia alle parti cantabili sia al sostegno ritmico dell’insieme.',
+			'Più grave del contralto, ha un suono corposo che si presta sia alle parti cantabili sia al sostegno ritmico dell’insieme.',
 	},
 	{
 		slug: 'sax-baritono',

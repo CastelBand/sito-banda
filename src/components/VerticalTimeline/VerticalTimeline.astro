@@ -59,7 +59,7 @@ const { items, className = '' } = Astro.props;
           <div class="timeline-image-wrapper">
             <img
               src={item.image}
-              alt={item.imageAlt ?? item.title ?? 'Timeline image'}
+              alt={item.imageAlt ?? ''}
               class="timeline-image"
               loading="lazy"
             />

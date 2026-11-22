@@ -1,9 +1,9 @@
 export default {
 	title: `Corpo Bandistico di Castelcovati APS`,
-	description: `questo è il sito del Corpo Bandistico di Castelcovati.`,
+	description: `Questo è il sito del Corpo Bandistico di Castelcovati.`,
 	// Nessun campo `url` qui: il dominio si configura solo in astro.config.mjs
 	// (variabile SITE_URL), e le pagine lo leggono da Astro.site.
-	name: `CB Castelcovati aps`, // The short name of the business or brand name. Used for things like the copyright in the footer.
+	name: `CB Castelcovati APS`, // The short name of the business or brand name. Used for things like the copyright in the footer.
 	// Codice fiscale dell'associazione. Per questa APS coincide con la partita
 	// IVA (unico numero a 11 cifre), quindi si compila SOLO qui: le pagine che
 	// lo mostrano usano l'etichetta giusta a seconda del contesto.
